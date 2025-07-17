@@ -1,0 +1,20 @@
+# Ignore build artifacts
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache
+.dart_tool
+.idea
+.vscode
+
+# OS & editor junk
+*.log
+.DS_Store
+*.iml
+*.swp
+*.lock
+
+# Git
+.git
+.gitignore
