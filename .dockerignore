@@ -1,0 +1,25 @@
+# Ignore Flutter build artifacts (except web)
+.dart_tool/
+.fvm/
+.git/
+.gradle/
+.idea/
+.vscode/
+android/
+ios/
+linux/
+macos/
+windows/
+web/
+build/
+!build/web/
+
+# Other common ignores
+*.iml
+*.lock
+*.log
+*.DS_Store
+*.env
+.env.*
+node_modules/
+#pubspec.lock # Keep this if you use it in Dockerfile build stage, but for web-only deploy, it's not strictly needed in the final image.
