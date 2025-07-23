@@ -1,6 +1,10 @@
 # Stage 1: Build the Flutter web application
 # We use a Flutter SDK image to build the app.
-FROM cirrusci/flutter:stable AS build
+# Changed from 'cirrusci/flutter:stable' to a more recent version
+# to ensure compatibility with Dart SDK ^3.8.1.
+# You might need to adjust this tag if your Flutter SDK requirements change,
+# or if a newer 'stable' tag becomes available that meets your needs.
+FROM cirrusci/flutter:3.22.0 AS build # Using Flutter 3.22.0 which supports Dart 3.x
 
 # Set the working directory inside the container
 WORKDIR /app
