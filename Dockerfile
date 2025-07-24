@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     curl unzip git xz-utils zip libglu1-mesa openjdk-17-jdk \
  && apt-get clean
 
-ENV FLUTTER_VERSION=3.32.0
+ENV FLUTTER_VERSION=3.32.7
 ENV FLUTTER_SUPPRESS_ANALYTICS=true
 ENV CI=true
 
