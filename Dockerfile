@@ -1,4 +1,4 @@
-# Stage 1: Build the Flutter web app
+# Stage 1: Build Flutter web app
 FROM debian:bullseye AS build
 
 RUN apt-get update && apt-get install -y \
@@ -9,7 +9,6 @@ ENV FLUTTER_VERSION=3.32.0
 ENV FLUTTER_SUPPRESS_ANALYTICS=true
 ENV CI=true
 
-# Install Flutter
 RUN git clone https://github.com/flutter/flutter.git /flutter \
  && cd /flutter && git checkout $FLUTTER_VERSION \
  && /flutter/bin/flutter doctor
@@ -22,15 +21,18 @@ RUN flutter pub get
 COPY . .
 RUN flutter build web --release
 
-# Stage 2: Serve using Red Hat's UBI NGINX image (OpenShift-safe)
-FROM registry.access.redhat.com/ubi9/nginx-120:1-66
+# Stage 2: NGINX server using OpenShift-compatible image
+FROM nginx:stable-alpine
 
-# Copy Flutter web build output
-COPY --from=build /app/build/web/ /opt/app-root/src/
+# Copy and overwrite NGINX config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy custom NGINX config for Flutter SPA routing
-COPY nginx.conf /opt/app-root/etc/nginx.default.d/custom.conf
+# Fix permissions for OpenShift’s non-root random UID
+RUN chmod -R 777 /etc/nginx /var/cache/nginx /usr/share/nginx/html
+
+# Copy built Flutter web files
+COPY --from=build /app/build/web /usr/share/nginx/html
 
 EXPOSE 8080
 
-# Default CMD from base image starts NGINX automatically
+CMD ["nginx", "-g", "daemon off;"]
